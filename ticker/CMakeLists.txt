@@ -9,27 +9,16 @@ include_directories(
 )
 
 # build executable 
-# add_executable(experiment_ticker
-
-#     src/curlpp_request.cpp
-#     src/parse_response.cpp
-#     src/experiment_ticker_test.cpp
-# )
-
-# target_link_libraries(experiment_ticker
-#     ${CURLPP_LDFLAGS}
-#     nlohmann_json::nlohmann_json
-# )
-
-add_executable(test_curlpp_request
+add_executable(experiment_ticker
 
     src/curlpp_request.cpp
-    src/test_curlpp_request_module.cpp
+    src/parse_response.cpp
+    src/experiment_ticker_test.cpp
 )
 
-target_link_libraries(test_curlpp_request
+target_link_libraries(experiment_ticker
     ${CURLPP_LDFLAGS}
+    nlohmann_json::nlohmann_json
 )
-
 
 

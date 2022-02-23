@@ -4,6 +4,8 @@
 #include <vector>
 #include <type_traits>
 
+// for helpful printing and stuff.
+// https://stackoverflow.com/questions/1198260/how-can-you-iterate-over-the-elements-of-an-stdtuple
 
 // std::decay
 // template::metaprogramming.
@@ -35,7 +37,7 @@ template <typename... VarTypes> void printAll(const VarTypes &...vars) {
   //   }
   // }
   
-  // ((std::cout << vars << std::endl), ...);
+  ((std::cout << vars << std::endl), ...);
 }   
 
 
