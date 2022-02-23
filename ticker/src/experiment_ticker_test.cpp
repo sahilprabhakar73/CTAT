@@ -6,32 +6,21 @@ using namespace CTAT;
 
 int main() {
 
-  
-
-  for (auto i = 0; i < 4; i++) {
+  for (auto i = 0; i < 2; i++) {
 
     CurlRequest request_;
+    auto str = request_.getResponseString();
 
-    request_.runOperation();
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+    if (str) {
+      printAll(str->size());
+      DataHandler handler;
+      handler.constructAndQueryJson(*str);
+    }
 
-    //   if (response_string) {
-    //     std::cout << *response_string << std::endl;
-
-    //     // DataHandler handler;
-    //     // handler.constructAndQueryJson(*response_string);
-    //   }
+    std::this_thread::sleep_for(std::chrono::seconds(10));
   }
 
-  // CurlRequest request_;
-  // auto response_string = request_.getResponseString();
 
-  // if (response_string) {
-  //   std::cout << *response_string << std::endl;
-
-  //   // DataHandler handler;
-  //   // handler.constructAndQueryJson(*response_string);
-  // }
 
   return 0;
 }

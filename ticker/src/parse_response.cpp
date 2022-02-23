@@ -3,6 +3,7 @@
 #include <nlohmann/json_fwd.hpp>
 #include <string>
 #include <ticker/parse_response.hpp>
+#include <ticker/utility.hpp>
 #include <tuple>
 #include <vector>
 
@@ -21,7 +22,7 @@ auto DataHandler::stringToActualDataTypes(
       stod(get<attr::change_24_hour>(json_data)),
       stod(get<attr::high>(json_data)), stod(get<attr::last_price>(json_data)),
       stod(get<attr::low>(json_data)), get<attr::market>(json_data),
-      stod(get<attr::timestamp>(json_data)),
+      get<attr::timestamp>(json_data),
       stod(get<attr::volume>(json_data)));
 
   return final_type;
@@ -46,13 +47,23 @@ void DataHandler::constructAndQueryJson(const std::string &response_string) {
                        });
       std::cout << *match << std::endl;
       match_index.emplace_back(match);
-
-      
     }
     return match_index;
   };
 
   for (const auto &match : find_matches(query)) {
+
+    printAll("found the matches. Converting to Tuple");
+
+    // auto to_tuple = jsonToTuple((*match)["ask"].get<std::string>(),
+    //                             (*match)["bid"].get<std::string>(),
+    //                             (*match)["change_24_hour"].get<std::string>(),
+    //                             (*match)["high"].get<std::string>(),
+    //                             (*match)["last_price"].get<std::string>(),
+    //                             (*match)["low"].get<std::string>(),
+    //                             (*match)["market"].get<std::string>(),
+    //                             (*match)["timestamp"].get<std::string>(),
+    //                             (*match)["volume"].get<std::string>());
 
     auto to_tuple = jsonToTuple((*match)["ask"].get<std::string>(),
                                 (*match)["bid"].get<std::string>(),
@@ -61,11 +72,12 @@ void DataHandler::constructAndQueryJson(const std::string &response_string) {
                                 (*match)["last_price"].get<std::string>(),
                                 (*match)["low"].get<std::string>(),
                                 (*match)["market"].get<std::string>(),
-                                (*match)["timestamp"].get<std::string>(),
+                                (*match)["timestamp"].get<long double>(),
                                 (*match)["volume"].get<std::string>());
-    std::cout << "Succesfully converted JSON Data to TUPLE" << std::endl;
-
+    
     auto correct_tuple = stringToActualDataTypes(to_tuple);
+
+    
 
     // from here, where do we send the correct tuple to ?
   }
