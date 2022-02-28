@@ -39,7 +39,12 @@ void DataCdcx::constructAndQueryJson(const std::string &response) {
                          return response["market"] == queryname;
                        });
       match_index.emplace_back(match);
+
+      printAll(*match);
+      
     }
+
+    
     return match_index;
   };
 

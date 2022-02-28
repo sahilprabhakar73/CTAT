@@ -1,26 +1,15 @@
 #include <thread>
-#include <ticker/curlpp_request.hpp>
-#include <ticker/parse_response.hpp>
+#include <ticker/datahandler_base.hpp>
+#include <ticker/datahandler_cdcx.hpp>
 
 using namespace CTAT;
 
 int main() {
 
-  for (auto i = 0; i < 2; i++) {
+  
 
-    CurlRequest request_;
-    auto str = request_.getResponseString();
-
-    if (str) {
-      printAll(str->size());
-      DataHandler handler;
-      handler.constructAndQueryJson(*str);
-    }
-
-    std::this_thread::sleep_for(std::chrono::seconds(10));
-  }
-
-
-
+  auto derived_ptr = std::make_unique<DataCdcx>(std::vector<std::string>{"MATICINR", "ETHINR"});
+  derived_ptr->fetchResponseAndParse();
+  
   return 0;
 }

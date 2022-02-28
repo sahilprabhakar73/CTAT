@@ -12,7 +12,8 @@ include_directories(
 add_executable(experiment_ticker
 
     src/curlpp_request.cpp
-    src/parse_response.cpp
+    # src/datahandler_base.cpp
+    src/datahandler_cdcx.cpp
     src/experiment_ticker_test.cpp
 )
 

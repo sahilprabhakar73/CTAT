@@ -19,7 +19,8 @@ class DataCdcx : protected DataHandler {
 
 public:
   DataCdcx(const std::vector<std::string> &query_vector)
-      : DataHandler(TICKER_URL), query_(query_vector) {}
+      : DataHandler("https://api.coindcx.com/exchange/ticker"),
+        query_(query_vector) {}
 
   void constructAndQueryJson(const std::string &response_string) override;
 
@@ -30,7 +31,6 @@ public:
 
 private:
   std::vector<std::string> query_;
-  const std::string TICKER_URL = "https://api.coindcx.com/exchange/ticker";
 };
 
 } // namespace CTAT

@@ -10,8 +10,8 @@ namespace CTAT {
 class DataHandler {
 
 public:
-  DataHandler(const std::string &url);
-  ~DataHandler();
+  DataHandler(const std::string &url)
+      : request_(std::make_unique<CurlRequest>(url)) {}
 
   virtual void constructAndQueryJson(const std::string &response_string) = 0;
 
@@ -21,7 +21,6 @@ public:
   }
 
 protected:
-
   std::unique_ptr<CurlRequest> request_;
 };
 
