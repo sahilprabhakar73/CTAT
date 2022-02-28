@@ -13,12 +13,11 @@ namespace CTAT {
 class CurlRequest {
 
 public:
-  CurlRequest() = default;
+  CurlRequest(const std::string &url) : ticker_url_(url) {}
 
   bool constructCurlppObject();
 
-  std::optional<std::string>
-  getResponseString();
+  std::optional<std::string> getResponseString();
 
 private:
   template <typename CurlOption>
@@ -27,16 +26,14 @@ private:
   }
 
   template <typename... CurlOption>
-  void setCurlppOptions(curlpp::Easy &request, const CurlOption &...option){
+  void setCurlppOptions(curlpp::Easy &request, const CurlOption &...option) {
     (setCurlppOption(request, option), ...);
   }
 
-  // curlpp::Easy request_handler_;
   std::unique_ptr<curlpp::Easy> request_handler_;
-  const std::string TICKER_URL = "https://api.coindcx.com/exchange/ticker";
+  const std::string ticker_url_;
   const int RESPONSE_OK = 200;
   std::ostringstream response_stream;
-
   std::ofstream my_file_;
 };
 

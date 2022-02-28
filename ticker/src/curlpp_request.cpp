@@ -21,7 +21,7 @@ bool CurlRequest::constructCurlppObject() {
       *request_handler_,
       options::WriteFunction(
           [](char *data, size_t size, size_t nmemb) { return size * nmemb; }),
-      options::Url(TICKER_URL), options::WriteStream(&response_stream),
+      options::Url(ticker_url_), options::WriteStream(&response_stream),
       options::Verbose(false));
 
   return true;
