@@ -1,3 +1,4 @@
 .cache/
 .vscode/
 build/
+data_storage/database/
