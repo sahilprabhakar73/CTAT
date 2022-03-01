@@ -31,3 +31,4 @@ include_directories(
 # adding subdirectory which includes CMakeLists.txt for that particular dir
 add_subdirectory(ticker)
 add_subdirectory(pybind_ticker)
+add_subdirectory(data_storage)
