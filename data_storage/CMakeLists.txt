@@ -13,3 +13,14 @@ include_directories(
 
 add_executable(test_sqlite3 src/test_sqlite3.cpp)
 target_link_libraries(test_sqlite3 ${SQLite3_LIBRARIES})
+
+
+add_executable(ptr_sql src/sqlite3_cpp.cpp)
+target_link_libraries(ptr_sql ${SQLite3_LIBRARIES})
+
+
+
+add_executable(test_db 
+src/database_operation.cpp
+src/test_database_operation.cpp)
+target_link_libraries(test_db ${SQLite3_LIBRARIES})
