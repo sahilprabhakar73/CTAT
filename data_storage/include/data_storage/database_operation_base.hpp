@@ -10,7 +10,7 @@ namespace CTAT {
 
 class DatabaseOperationBase {
 public:
-  DatabaseOperationBase(const std::string &db_name) : database_path(db_name) {}
+  enum operation { CREATE_TABLE = 0, INSERT_DATA, QUERY_DATA };
 
   // custom deleter to be used along with std::unique_ptr;
   struct SqliteDeleter {
@@ -18,7 +18,6 @@ public:
   };
 
   // scope_exit class to cleanup after sqlite C char allocs and many more.
-  // https://stackoverflow.com/questions/36644263/is-there-a-c-standard-class-to-set-a-variable-to-a-value-at-scope-exit
   template <typename F> struct ScopeExit {
     F f_;
 
@@ -35,19 +34,16 @@ public:
   // type-aliasing for convenience.
   using sqlite_ptr = std::unique_ptr<sqlite3, SqliteDeleter>;
 
-  int callback(void *, int argc, char **argv, char **col_names);
+  DatabaseOperationBase(const std::string &db_name) : database_path(db_name) {}
 
-  virtual std::string createTableFormat(const std::string &tablename) = 0;
+  std::unique_ptr<sqlite3, SqliteDeleter> createSqlitePtr(char const *db_name);
 
-  virtual bool createTable(const std::string &tablename) = 0;
+  static int callback(void *, int argc, char **argv, char **col_names);
 
-  // templated virtual functions are not feasible since the template <> is a
-  // compile time and virtual function binds to the implementation of the
-  // virtual function in run time. look up type_erasure c++, it's more of a
-  // workaround.
-  // or we still have this function limited to the __cdcx file while keeping
-  // other things available template<typename... TupleData> virtual std::string
-  // createInsertString(const std::tuple<TupleData...>& tuple_data);
+  virtual std::string createTableString(const std::string &tablename) = 0;
+  
+  bool executeSqlOperation(const std::string &sql_statement,
+                           enum operation oper);
 
 protected:
   std::mutex db_lock;
